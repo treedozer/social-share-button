@@ -6,8 +6,8 @@ module SocialShareButton
       extra_data = {}
       rel = opts[:rel]
       html = []
-      html << "<div class='social-share-button' data-title='#{h title}' data-img='#{opts[:image]}'"
-      html << "data-url='#{opts[:url]}' data-desc='#{opts[:desc]}' data-via='#{opts[:via]}'>"
+
+      html << "<div class='social-share-button' data-title='#{h title}' #{opts_to_attributes(opts)}>"
 
       opts[:allow_sites].each do |name|
         extra_data = opts.select { |k, _| k.to_s.start_with?('data') } if name.eql?('tumblr')
@@ -24,6 +24,17 @@ module SocialShareButton
       end
       html << "</div>"
       raw html.join("\n")
+    end
+
+    def opts_to_attributes(opts)
+      opts = opts.compact.deep_symbolize_keys
+      if opts.key?(:image)
+        opts[:img] = opts[:image]
+        opts.delete(:image)
+      end
+      opts.map do |k, v|
+        "data-#{k}='#{v}'"
+      end.join(' ')
     end
   end
 end
