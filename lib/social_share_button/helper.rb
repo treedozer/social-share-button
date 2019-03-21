@@ -33,7 +33,7 @@ module SocialShareButton
         opts.delete(:image)
       end
       opts.except(:allow_sites).map do |k, v|
-        "data-#{k.dasherize}='#{v}'"
+        "data-#{k.to_s.dasherize}='#{v}'"
       end.join(' ')
     end
   end
