@@ -8,7 +8,7 @@ module SocialShareButton
       rel         = opts[:rel]
       html        = []
 
-      html << "<div #{prepare_container_class(opts)} data-title='#{h title}' #{opts_to_attributes(opts)}>"
+      html << "<div class='#{prepare_container_class(opts)}' data-title='#{h title}' #{opts_to_attributes(opts)}>"
 
       opts[:allow_sites].each do |name|
         extra_data    = opts.select { |k, _| k.to_s.start_with?('data') } if name.eql?('tumblr')
