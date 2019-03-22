@@ -8,7 +8,7 @@ module SocialShareButton
       rel         = opts[:rel]
       html        = []
 
-      html << "<div class='social-share-button' data-title='#{h title}' #{opts_to_attributes(opts)}>"
+      html << "<div #{prepare_container_class(opts)} data-title='#{h title}' #{opts_to_attributes(opts)}>"
 
       opts[:allow_sites].each do |name|
         extra_data    = opts.select { |k, _| k.to_s.start_with?('data') } if name.eql?('tumblr')
@@ -32,13 +32,13 @@ module SocialShareButton
     end
 
     def opts_to_attributes(opts)
-      if opts.key?(:image)
-        opts[:img] = opts[:image]
-        opts.delete(:image)
-      end
-      opts.except(:allow_sites).map do |k, v|
+      opts.except(:allow_sites, :class).map do |k, v|
         "data-#{k.to_s.dasherize}='#{v}'"
       end.join(' ')
+    end
+
+    def prepare_container_class(opts)
+      "social-share-button #{opts[:class]} #{opts[:allow_sites].map { |s| "ssb-container-#{s}"}.join(' ') }".squish
     end
   end
 end
